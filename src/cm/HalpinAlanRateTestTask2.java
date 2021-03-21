@@ -1,15 +1,12 @@
 package cm;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class HalpinAlanRateTestTask2 {
      /* Task One Black Box Tests */
-
     // Invalid Rates (Negative)
     @org.junit.Test(expected = IllegalArgumentException.class)
     public void testCase1() throws IllegalArgumentException {
@@ -513,8 +510,6 @@ public class HalpinAlanRateTestTask2 {
 
         normalPeriods.add(normalPeriod1);
         normalPeriods.add(normalPeriod2);
-
-
 
         r = new Rate(x, normalRate, reducedRate, normalPeriods, reducedPeriods);
         assertEquals(4, reducedPeriod2.occurences(reducedPeriods)); // Value should equal 6
