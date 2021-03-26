@@ -696,6 +696,46 @@ public class HalpinAlanRateTestTask2 {
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(3), r.calculate(normalPeriod1)); // Value should equal 3
     }
+    // Cost is greater than 3
+    @Test
+    public void testCase34()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.MANAGEMENT;
+
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,9);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(5), r.calculate(normalPeriod1)); // Value should equal 5
+    }
+    //cost is 3
+    @Test
+    public void testCase35()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.MANAGEMENT;
+
+        BigDecimal normalRate = new BigDecimal(3);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,9);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(3), r.calculate(normalPeriod1)); // Value should equal 3
+    }
     /*
     // STUDENT 25% discount after 5.50
     @Test
