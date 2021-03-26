@@ -72,13 +72,13 @@ public class Rate {
         }
         return isValid;
     }
-
     /**
      * checks if a period is a valid addition to a collection of periods
      * @param period the Period addition
      * @param list the collection of periods to check
      * @return true if the period does not overlap in the collecton of periods
      */
+
     private Boolean isValidPeriod(Period period, List<Period> list) {
         Boolean isValid = true;
         int i = 0;
@@ -89,117 +89,30 @@ public class Rate {
         return isValid;
     }
 
-    // Strategy Pattern interface
-    public interface ReductionRates {
-        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate);
-    }
-
-    public class Context {
-        private ReductionRates reductionRates;
-
-        public Context(ReductionRates reductionRates) {
-            this.reductionRates = reductionRates;
-        }
-
-        public BigDecimal findReduction(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate){
-            return reductionRates.cRate(normalRateHours, reducedRateHours, normalRate, reducedRate );
-        }
-    }
-
-    public class vistorRate implements ReductionRates {
-        @Override
-        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
-            BigDecimal cost;
-            cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
-            int result = cost.compareTo(BigDecimal.valueOf(8));
-            if(result == 1)
-            {
-                cost = cost.subtract(BigDecimal.valueOf(8));
-                return cost = cost.divide(BigDecimal.valueOf(2));
-            }
-            else
-            {
-                return BigDecimal.valueOf(0);
-            }
-        }
-    }
-    public class staffRate implements ReductionRates {
-        @Override
-        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
-            BigDecimal cost;
-            cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
-            int result = cost.compareTo(BigDecimal.valueOf(16));
-            if(result == 1)
-            {
-                return BigDecimal.valueOf(16);
-            }
-            else
-            {
-                return cost;
-            }
-        }
-    }
-    public class managementRate implements ReductionRates {
-        @Override
-        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
-            BigDecimal cost;
-            cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
-            int result = cost.compareTo(BigDecimal.valueOf(3));
-            if(result == -1 || result == 0)
-            {
-                return BigDecimal.valueOf(3);
-            }
-            else
-            {
-                return cost;
-            }
-        }
-    }
-    public class studentRate implements ReductionRates {
-        @Override
-        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
-            BigDecimal cost;
-            BigDecimal discount;
-            cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
-            int result = cost.compareTo(BigDecimal.valueOf(5.50));
-            if(result == 1)
-            {
-                discount = cost.subtract(BigDecimal.valueOf(5.50)).divide(BigDecimal.valueOf(4));
-                cost = discount.add(BigDecimal.valueOf(5.50));
-                return cost;
-            }
-            else
-            {
-                return cost;
-            }
-        }
-    }
-
     public BigDecimal calculate(Period periodStay) {
 
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-        BigDecimal cost = BigDecimal.valueOf(0);
-        
-        if(this.kind == CarParkKind.STAFF)
+        BigDecimal cost = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+        if(kind == CarParkKind.STAFF)
         {
-            Context contextStaff = new Context(new staffRate());
-            cost = contextStaff.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+            Context contextStaff = new Context(new StaffRate());
+            cost = contextStaff.findReduction(cost);
         }
-        if(this.kind == CarParkKind.VISITOR)
+        if(kind == CarParkKind.VISITOR)
         {
-            Context contextVisitor = new Context(new vistorRate());
-            cost = contextVisitor.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+            Context contextVisitor = new Context(new VisitorRate());
+            cost = contextVisitor.findReduction(cost);
         }
-        if(this.kind == CarParkKind.MANAGEMENT)
+        if(kind == CarParkKind.MANAGEMENT)
         {
-            Context contextManagement = new Context(new managementRate());
-            cost = contextManagement.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+            Context contextManagement = new Context(new ManagementRate());
+            cost = contextManagement.findReduction(cost);
         }
-        if (this.kind == CarParkKind.STUDENT)
+        if (kind == CarParkKind.STUDENT)
         {
-            Context contextStudent = new Context(new studentRate());
-            cost = contextStudent.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+            Context contextStudent = new Context(new StudentRate());
+            cost = contextStudent.findReduction(cost);
         }
         return cost;
     }
