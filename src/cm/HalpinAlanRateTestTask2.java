@@ -736,10 +736,9 @@ public class HalpinAlanRateTestTask2 {
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(3), r.calculate(normalPeriod1)); // Value should equal 3
     }
-    /*
     // STUDENT 25% discount after 5.50
     @Test
-    public void testCase32()
+    public void testCase36()
     {
         Rate r;
         CarParkKind x = CarParkKind.STUDENT;
@@ -756,5 +755,5 @@ public class HalpinAlanRateTestTask2 {
 
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(7.75), r.calculate(normalPeriod1)); // Value should equal 7.75
-    } */
+    }
 }
