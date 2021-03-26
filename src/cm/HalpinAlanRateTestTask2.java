@@ -568,4 +568,114 @@ public class HalpinAlanRateTestTask2 {
 
         assertEquals(false, reducedPeriod1.overlaps(normalPeriod1)); // Value should be false
     }
+    // 100% branch coverage
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void testCase28() throws IllegalArgumentException
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.STAFF;
+
+        BigDecimal normalRate = new BigDecimal(2);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(7,13);
+        Period normalPeriod2 = new Period(14,24);
+
+        Period normalPeriod3 = new Period(18,20);
+        Period normalPeriod4 = new Period(20,24);
+
+        normalPeriods.add(normalPeriod1);
+        normalPeriods.add(normalPeriod2);
+        normalPeriods.add(normalPeriod3);
+        normalPeriods.add(normalPeriod4);
+
+        r = new Rate(x, normalRate, reducedRate, normalPeriods, reducedPeriods);
+    }
+    // TDD Tests
+    // Acceptance Tests (Once these tests pass, functionality will be complete)
+    // VISITOR first 8 free, rest is 50% off
+    @Test
+    public void testCase29()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.VISITOR;
+
+        BigDecimal normalRate = new BigDecimal(2);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,16);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(4), r.calculate(normalPeriod1)); // Value should equal 4
+    }
+    /*
+    // For staff, max payable is 16
+    @Test
+    public void testCase30()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.STAFF;
+
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(7,13);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(16), r.calculate(normalPeriod1)); // Value should equal 16
+    }
+
+    // Management minimum payable 3
+    @Test
+    public void testCase31()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.MANAGEMENT;
+
+        BigDecimal normalRate = new BigDecimal(2);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,9);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(3), r.calculate(normalPeriod1)); // Value should equal 3
+    }
+    // STUDENT 25% discount after 5.50
+    @Test
+    public void testCase32()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.STUDENT;
+
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,10);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(7.75), r.calculate(normalPeriod1)); // Value should equal 7.75
+    } */
 }
