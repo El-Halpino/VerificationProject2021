@@ -139,6 +139,22 @@ public class Rate {
             }
         }
     }
+    public class managementRate implements ReductionRates {
+        @Override
+        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
+            BigDecimal cost;
+            cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
+            int result = cost.compareTo(BigDecimal.valueOf(3));
+            if(result == -1 || result == 0)
+            {
+                return BigDecimal.valueOf(3);
+            }
+            else
+            {
+                return cost;
+            }
+        }
+    }
 
     public BigDecimal calculate(Period periodStay) {
 
@@ -154,6 +170,10 @@ public class Rate {
             case STAFF:
                 Context contextStaff = new Context(new staffRate());
                 cost = contextStaff.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+                break;
+            case MANAGEMENT:
+                Context contextManagement = new Context(new managementRate());
+                cost = contextManagement.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
                 break;
             default:
                 break;
