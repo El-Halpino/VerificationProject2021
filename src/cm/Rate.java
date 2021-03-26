@@ -130,6 +130,18 @@ public class Rate {
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
 
+        BigDecimal cost = BigDecimal.valueOf(0);
+        switch(this.kind)
+        {
+            case VISITOR:
+                Context context = new Context(new vistorRate());
+                cost = context.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+                break;
+        }
+        if(cost.compareTo(BigDecimal.valueOf(0)) != 0) {
+            return cost;
+        }
+        
         return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
     }
