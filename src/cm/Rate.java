@@ -94,6 +94,18 @@ public class Rate {
         public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate);
     }
 
+    public class Context {
+        private ReductionRates reductionRates;
+
+        public Context(ReductionRates reductionRates) {
+            this.reductionRates = reductionRates;
+        }
+
+        public BigDecimal findReduction(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate){
+            return reductionRates.cRate(normalRateHours, reducedRateHours, normalRate, reducedRate );
+        }
+    }
+    
     public BigDecimal calculate(Period periodStay) {
 
         int normalRateHours = periodStay.occurences(normal);
