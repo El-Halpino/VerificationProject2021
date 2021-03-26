@@ -616,6 +616,26 @@ public class HalpinAlanRateTestTask2 {
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(4), r.calculate(normalPeriod1)); // Value should equal 4
     }
+    // VISITOR first 8 free, rest is 50% off
+    @Test
+    public void testCase30()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.VISITOR;
+
+        BigDecimal normalRate = new BigDecimal(2);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,11);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(0), r.calculate(normalPeriod1)); // Value should equal 0
+    }
     /*
     // For staff, max payable is 16
     @Test

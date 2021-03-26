@@ -109,19 +109,18 @@ public class Rate {
     public class vistorRate implements ReductionRates {
         @Override
         public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
-            BigDecimal cost = BigDecimal.valueOf(0);
+            BigDecimal cost;
             cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
             int result = cost.compareTo(BigDecimal.valueOf(8));
             if(result == 1)
             {
                 cost = cost.subtract(BigDecimal.valueOf(8));
-                cost = cost.divide(BigDecimal.valueOf(2));
+                return cost = cost.divide(BigDecimal.valueOf(2));
             }
             else
             {
-                cost = BigDecimal.valueOf(0);
+                return BigDecimal.valueOf(0);
             }
-            return cost;
         }
     }
 
@@ -129,19 +128,22 @@ public class Rate {
 
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-
+        boolean kindCalc = false;
         BigDecimal cost = BigDecimal.valueOf(0);
         switch(this.kind)
         {
             case VISITOR:
                 Context context = new Context(new vistorRate());
                 cost = context.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+                kindCalc = true;
+                break;
+            default:
                 break;
         }
-        if(cost.compareTo(BigDecimal.valueOf(0)) != 0) {
+        if (kindCalc == true) {
             return cost;
         }
-        
+
         return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
     }
