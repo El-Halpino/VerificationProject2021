@@ -180,26 +180,26 @@ public class Rate {
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
         BigDecimal cost = BigDecimal.valueOf(0);
-        switch(this.kind)
+        
+        if(this.kind == CarParkKind.STAFF)
         {
-            case VISITOR:
-                Context contextVisitor = new Context(new vistorRate());
-                cost = contextVisitor.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
-                break;
-            case STAFF:
-                Context contextStaff = new Context(new staffRate());
-                cost = contextStaff.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
-                break;
-            case MANAGEMENT:
-                Context contextManagement = new Context(new managementRate());
-                cost = contextManagement.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
-                break;
-            case STUDENT:
-                Context contextStudent = new Context(new studentRate());
-                cost = contextStudent.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
-                break;
-            default:
-                break;
+            Context contextStaff = new Context(new staffRate());
+            cost = contextStaff.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+        }
+        if(this.kind == CarParkKind.VISITOR)
+        {
+            Context contextVisitor = new Context(new vistorRate());
+            cost = contextVisitor.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+        }
+        if(this.kind == CarParkKind.MANAGEMENT)
+        {
+            Context contextManagement = new Context(new managementRate());
+            cost = contextManagement.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
+        }
+        if (this.kind == CarParkKind.STUDENT)
+        {
+            Context contextStudent = new Context(new studentRate());
+            cost = contextStudent.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
         }
         return cost;
     }

@@ -756,4 +756,23 @@ public class HalpinAlanRateTestTask2 {
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(6.625), r.calculate(normalPeriod1)); // Value should equal 6.625
     }
+    @Test
+    public void testCase37()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.STUDENT;
+
+        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,9);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(5), r.calculate(normalPeriod1)); // Value should equal 5
+    }
 }
