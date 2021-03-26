@@ -754,6 +754,6 @@ public class HalpinAlanRateTestTask2 {
         normalPeriods.add(normalPeriod1);
 
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
-        assertEquals(BigDecimal.valueOf(7.75), r.calculate(normalPeriod1)); // Value should equal 7.75
+        assertEquals(BigDecimal.valueOf(6.625), r.calculate(normalPeriod1)); // Value should equal 6.625
     }
 }
