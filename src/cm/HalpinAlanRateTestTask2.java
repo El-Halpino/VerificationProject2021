@@ -327,7 +327,7 @@ public class HalpinAlanRateTestTask2 {
     }
 
     /*  Task Two White Box Tests  */
-    // Testing calculate() method normal period expecting value of 32 for 8 hours at rate of 4
+    // Testing calculate() test changed to support new specification
     @Test
     public void testCase14()
     {
@@ -345,7 +345,7 @@ public class HalpinAlanRateTestTask2 {
         reducedPeriods.add(normalPeriod1);
 
         r = new Rate(x, normalRate, reducedRate, normalPeriods, reducedPeriods);
-        assertEquals(BigDecimal.valueOf(32), r.calculate(normalPeriod1)); // value should equal 2
+        assertEquals(BigDecimal.valueOf(16), r.calculate(normalPeriod1)); // value should equal 16
     }
     // Test duration() method, expecting 1
     @Test
@@ -636,28 +636,47 @@ public class HalpinAlanRateTestTask2 {
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(0), r.calculate(normalPeriod1)); // Value should equal 0
     }
-    /*
     // For staff, max payable is 16
     @Test
-    public void testCase30()
+    public void testCase31()
     {
         Rate r;
         CarParkKind x = CarParkKind.STAFF;
 
-        BigDecimal normalRate = new BigDecimal(5);
+        BigDecimal normalRate = new BigDecimal(4);
         BigDecimal reducedRate = new BigDecimal(1);
 
         ArrayList<Period> normalPeriods = new ArrayList<Period>();
         ArrayList<Period> reducedPeriods = new ArrayList<Period>();
 
-        Period normalPeriod1 = new Period(7,13);
+        Period normalPeriod1 = new Period(8,13);
 
         normalPeriods.add(normalPeriod1);
 
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(16), r.calculate(normalPeriod1)); // Value should equal 16
     }
+    // For staff, max payable is 16
+    @Test(expected = AssertionError.class)
+    public void testCase32()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.STAFF;
 
+        BigDecimal normalRate = new BigDecimal(4);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(8,14);
+
+        normalPeriods.add(normalPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+        assertEquals(BigDecimal.valueOf(24), r.calculate(normalPeriod1)); // Value should equal 16 so expect test fail
+    }
+    /*
     // Management minimum payable 3
     @Test
     public void testCase31()

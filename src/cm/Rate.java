@@ -128,23 +128,16 @@ public class Rate {
 
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-        boolean kindCalc = false;
         BigDecimal cost = BigDecimal.valueOf(0);
         switch(this.kind)
         {
             case VISITOR:
-                Context context = new Context(new vistorRate());
-                cost = context.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
-                kindCalc = true;
+                Context contextVisitor = new Context(new vistorRate());
+                cost = contextVisitor.findReduction(BigDecimal.valueOf(normalRateHours), BigDecimal.valueOf(reducedRateHours), this.hourlyNormalRate, this.hourlyReducedRate);
                 break;
             default:
                 break;
         }
-        if (kindCalc == true) {
-            return cost;
-        }
-
-        return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
-                this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+        return cost;
     }
 }
