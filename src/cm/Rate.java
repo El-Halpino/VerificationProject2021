@@ -105,7 +105,26 @@ public class Rate {
             return reductionRates.cRate(normalRateHours, reducedRateHours, normalRate, reducedRate );
         }
     }
-    
+
+    public class vistorRate implements ReductionRates {
+        @Override
+        public BigDecimal cRate(BigDecimal normalRateHours, BigDecimal reducedRateHours, BigDecimal normalRate, BigDecimal reducedRate) {
+            BigDecimal cost = BigDecimal.valueOf(0);
+            cost = normalRate.multiply(normalRateHours).add(reducedRate.multiply(reducedRateHours));
+            int result = cost.compareTo(BigDecimal.valueOf(8));
+            if(result == 1)
+            {
+                cost = cost.subtract(BigDecimal.valueOf(8));
+                cost = cost.divide(BigDecimal.valueOf(2));
+            }
+            else
+            {
+                cost = BigDecimal.valueOf(0);
+            }
+            return cost;
+        }
+    }
+
     public BigDecimal calculate(Period periodStay) {
 
         int normalRateHours = periodStay.occurences(normal);
