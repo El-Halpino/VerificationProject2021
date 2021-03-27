@@ -815,6 +815,7 @@ public class HalpinAlanRateTestTask3 {
         r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
         assertEquals(BigDecimal.valueOf(2), r.calculate(normalPeriod1)); // actual 3
     }
+    // Expect to fail. If reduction rate isn't applied correctly then value will equal 24.
     @Test (expected = AssertionError.class)
     public void testCase40()
     {
@@ -864,6 +865,7 @@ public class HalpinAlanRateTestTask3 {
 
         assertEquals(BigDecimal.valueOf(3), r.calculate(parking)); // expect 3
     }
+    // Combination of reduced and normal period
     @Test
     public void testCase42()
     {
