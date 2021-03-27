@@ -864,4 +864,29 @@ public class HalpinAlanRateTestTask3 {
 
         assertEquals(BigDecimal.valueOf(3), r.calculate(parking)); // expect 3
     }
+    @Test
+    public void testCase42()
+    {
+        Rate r;
+        CarParkKind x = CarParkKind.MANAGEMENT;
+
+        BigDecimal normalRate = new BigDecimal(4);
+        BigDecimal reducedRate = new BigDecimal(1);
+
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+
+        Period normalPeriod1 = new Period(0,16);
+        Period reducedPeriod1 = new Period(16,23);
+
+        normalPeriods.add(normalPeriod1);
+        reducedPeriods.add(reducedPeriod1);
+
+        r = new Rate(x, normalRate, reducedRate,reducedPeriods, normalPeriods);
+
+        Period parking = new Period(14,20);
+
+        assertEquals(BigDecimal.valueOf(12), r.calculate(parking)); //
+    }
+
 }

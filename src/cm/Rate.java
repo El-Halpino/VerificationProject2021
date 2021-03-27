@@ -96,23 +96,23 @@ public class Rate {
         BigDecimal cost = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
         if(kind == CarParkKind.STAFF)
         {
-            Context contextStaff = new Context(new StaffRate());
-            cost = contextStaff.findReduction(cost);
+            StaffRate staffRate = new StaffRate();
+            cost = staffRate.cRate(cost);
         }
         if(kind == CarParkKind.VISITOR)
         {
-            Context contextVisitor = new Context(new VisitorRate());
-            cost = contextVisitor.findReduction(cost);
+            VisitorRate visitorRate = new VisitorRate();
+            cost = visitorRate.cRate(cost);
         }
         if(kind == CarParkKind.MANAGEMENT)
         {
-            Context contextManagement = new Context(new ManagementRate());
-            cost = contextManagement.findReduction(cost);
+            ManagementRate managementRate = new ManagementRate();
+            cost = managementRate.cRate(cost);
         }
         if (kind == CarParkKind.STUDENT)
         {
-            Context contextStudent = new Context(new StudentRate());
-            cost = contextStudent.findReduction(cost);
+            StudentRate studentRate  = new StudentRate();
+            cost = studentRate.cRate(cost);
         }
         return cost;
     }
